@@ -120,10 +120,34 @@ Assuming you got a LUCI interface on http://192.168.1.1 we will continue. otherw
 5. Open the interface, and go to "Firewall settings". Make sure it is put in the "WAN" zone
 
 Optional:
-6. If your main network already is in the 192.168.1.0/24 range, you will have to change IP on the 
+6. If your main network already is in the 192.168.1.0/24 range, you will have to change IP on the LAN interface. Reboot OpenWRT
+
+7. Log in to adminUI and go to System -> Software and press "Update lists"
+8. Enter "zerotier" in the filter and press "Install" on the zerotier line
+9. Go to "System -> Startup" and make sure zerotier reads "Enabled", and press "Restart"
+10. Log in to zerotier cli using putty or ssh. username root and the password used in the UI
+11. Now run
+
+  \# zerotier-cli join <network id from zerotier initial setup>
+  \# zerotier-cli set <network id> allowDefault=1
+
+after the last command you will see a json output with current zerotier settings. Just ignore.
+Check that default routing is set correctly:
+
+  \# route
+
+Make sure you see these entries:
+
+  default         10.147.17.10     128.0.0.0       UG    5000   0        0 zt********
+  128.0.0.0       10.147.17.10     128.0.0.0       UG    5000   0        0 zt********
+
+The zt****** is the interface name for zerotier. it starts with zt
+
+OpenWRT is now ready to route traffic
 
 
-  
+
+   
 
 
 
