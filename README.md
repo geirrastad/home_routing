@@ -52,18 +52,18 @@ The exit node (the one located in your home network). Only needs basic OS and th
 3. Boot it up and upgrade packages
 4. Download and install ZeroTier
 
-  curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg' | gpg --import && \  
+    curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg' | gpg --import && \  
 if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi
 
 
 5. Enable zerotier-one service
 
-  sudo service zerotier enable
-  sudo service zerotier start
+    sudo service zerotier enable
+    sudo service zerotier start
 
 6. Join your private ZT network
 
-  sudo zerotier-cli join <network id from zerotier initial setup>
+    sudo zerotier-cli join <network id from zerotier initial setup>
 
 7. Now log in to your ZeroTier account
 8. Click on your network and scroll down to the members section. You should see a red entry
@@ -72,8 +72,8 @@ if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bas
 11. Enable it by selecting the "Auth" checkbox
 12. Go to your pi and run
 
-  ip addr  (on ubuntu)
-  ifconfig (on rasbian)
+    ip addr  (on ubuntu)
+    ifconfig (on rasbian)
 
 13. You should now see a zerotier interface with an ip address of 10.147.17.10
 14. Now go back to ZeroTier UI and scroll up to the "Advanced" section
@@ -104,7 +104,7 @@ and run ifconfig to see if the interface is activated.
 
 If you have a network connection, but no luci interface, try to run this command:
 
-  opkg install base-files bcm27xx-gpu-fw bcm27xx-utils brcmfmac-nvram-43455-sdio busybox ca-bundle cypress-firmware-43455-sdio dnsmasq dropbear e2fsprogs firewall4 fstools iwinfo kmod-brcmfmac kmod-fs-vfat kmod-nft-offload kmod-nls-cp437 kmod-nls-iso8859-1 kmod-r8169 kmod-sound-arm-bcm2835 kmod-sound-core kmod-usb-hid kmod-usb-net-lan78xx libc libgcc libustream-mbedtls logd luci mkf2fs mtd netifd nftables odhcp6c odhcpd-ipv6only opkg partx-utils ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uci uclient-fetch urandom-seed wpad-basic-mbedtls kmod-usb-net-rtl8152
+    opkg install base-files bcm27xx-gpu-fw bcm27xx-utils brcmfmac-nvram-43455-sdio busybox ca-bundle cypress-firmware-43455-sdio dnsmasq dropbear e2fsprogs firewall4 fstools iwinfo kmod-brcmfmac kmod-fs-vfat kmod-nft-offload kmod-nls-cp437 kmod-nls-iso8859-1 kmod-r8169 kmod-sound-arm-bcm2835 kmod-sound-core kmod-usb-hid kmod-usb-net-lan78xx libc libgcc libustream-mbedtls logd luci mkf2fs mtd netifd nftables odhcp6c odhcpd-ipv6only opkg partx-utils ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uci uclient-fetch urandom-seed wpad-basic-mbedtls kmod-usb-net-rtl8152
 
 then reboot the Pi.
 
@@ -128,18 +128,18 @@ Optional:
 10. Log in to zerotier cli using putty or ssh. username root and the password used in the UI
 11. Now run
 
-  \# zerotier-cli join <network id from zerotier initial setup>
-  \# zerotier-cli set <network id> allowDefault=1
+    \# zerotier-cli join <network id from zerotier initial setup>
+    \# zerotier-cli set <network id> allowDefault=1
 
 after the last command you will see a json output with current zerotier settings. Just ignore.
 Check that default routing is set correctly:
 
-  \# route
+    \# route
 
 Make sure you see these entries:
 
-  default         10.147.17.10     128.0.0.0       UG    5000   0        0 zt********
-  128.0.0.0       10.147.17.10     128.0.0.0       UG    5000   0        0 zt********
+    default         10.147.17.10     128.0.0.0       UG    5000   0        0 zt********
+    128.0.0.0       10.147.17.10     128.0.0.0       UG    5000   0        0 zt********
 
 The zt****** is the interface name for zerotier. it starts with zt
 
