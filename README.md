@@ -22,8 +22,8 @@ This version will use ZeroTier, and two rasopberry pies running openwrt.You coul
 I have a setup that differs slightly from this. I use VLANs so I do not need the second ethernet interface on the raspis. I also have a separate VLAN so home routing traffic does not go via my internal 192.x.x.x address and isolates my connected devices at home.
 
 - 2 x Raspberry PI (4 or 5)
-- 2 x USB Ethernet interfaces (USB-A 3.0)
-- OpenWRT firmware for Raspberry PI 4 (5)
+- 1 x USB Ethernet interfaces (USB-A 3.0)
+- OpenWRT firmware for Raspberry PI 4 (5) (installed on the "client" side)
 - ZeroTier account (it is free for up to 25 nodes)
 
 ## ZeroTier - Initial step
@@ -43,7 +43,47 @@ Leave all other options as they are
 
 Write down or keep the "Network ID" (at the top) handy, you will need it later
 
-## Raspberry Pi - Initial steps
+## Exit node: RaspbianOS / Ubuntu
+
+The exit node (the one located in your home network). Only needs basic OS and the ZeroTier client
+
+1. Flash any OS on your device
+2. Connect it to your home LAN
+3. Boot it up and upgrade packages
+4. Download and install ZeroTier
+
+  curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg' | gpg --import && \  
+if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi
+
+
+5. Enable zerotier-one service
+
+  sudo service zerotier enable
+  sudo service zerotier start
+
+6. Join your private ZT network
+
+  sudo zerotier-cli join <network id from zerotier initial setup>
+
+7. Now log in to your ZeroTier account
+8. Click on your network and scroll down to the members section. You should see a red entry
+9. Edit that entry: IP Address: 10.147.17.10 and press the +
+10. Give it a name "Main home router" and a description
+11. Enable it by selecting the "Auth" checkbox
+12. Go to your pi and run
+
+  ip addr  (on ubuntu)
+  ifconfig (on rasbian)
+
+13. You should now see a zerotier interface with an ip address of 10.147.17.10
+14. Now go back to ZeroTier UI and scroll up to the "Advanced" section
+15. Add a new route: destination: 0.0.0.0/0 via: 10.147.17.10 then "Submit". This is the route that enables home routing!
+
+
+
+
+
+## Client Node: OpenWRT - Initial steps
 
 Note: At the time of writing, Raspberry PI 5 support in OpenWRT is not yet released.
 - Download OpenWRT [Raspberry PI firmware](https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi).
